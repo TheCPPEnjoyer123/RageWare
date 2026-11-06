@@ -680,19 +680,19 @@ local function main()
 		local CtrlScroll = false
 		local AutoScroll = false
 
-		local LogService = game:GetService("LogService")
-		local Players = game:GetService("Players")
+		local LogService = cloneref(game.service("LogService"))
+		local Players = cloneref(game.service("Players"))
 		local LocalPlayer = Players.LocalPlayer
 		local Mouse = LocalPlayer:GetMouse()
-		local UserInputService = game:GetService("UserInputService")
-		local RunService = game:GetService("RunService")
+		local UserInputService = cloneref(game.service("UserInputService"))
+		local RunService = cloneref(game.service("RunService"))
 
 		local Console = ConsoleFrame
 		local SyntaxHighlightingModule = require(G2L["1c"].SyntaxHighlighter)
 		local OutputTextSize = Console.Output.OutputTextSize
 
 		local function Tween(obj, info, prop)
-			local tween = game:GetService("TweenService"):Create(obj, info, prop)
+			local tween = cloneref(game.service("TweenService")):Create(obj, info, prop)
 			tween:Play()
 			return tween
 		end
@@ -5415,7 +5415,7 @@ local function main()
 				obj.Position = UDim2.new(-col - (pad * (col + 1) + border) / funcs.ExplorerIcons.IconSize, 0, -row - (pad * (row + 1) + border) / funcs.ExplorerIcons.IconSize, 0)
 				obj.Size = UDim2.new(MapSize.X / funcs.ExplorerIcons.IconSize, 0, MapSize.Y / funcs.ExplorerIcons.IconSize, 0)
 			elseif Settings.ClassIcon == "NewLight" or Settings.ClassIcon == "NewDark" then
-				local isService = string.find(index, "Service") and game:GetService(index)
+				local isService = string.find(index, "Service") and cloneref(game.service(index))
 				
 				obj.Size = UDim2.fromOffset(16, 16)
 				index = (self.ExplorerIcons.Icons[index] or (isService and self.ExplorerIcons.Icons.Service) or self.ExplorerIcons.Icons.Placeholder) - 1
@@ -7610,7 +7610,7 @@ local function main()
 						end
 					end)
 
-					scrollEvent = game:GetService("RunService").RenderStepped:Connect(function()
+					scrollEvent = cloneref(game.service("RunService")).RenderStepped:Connect(function()
 						if scrollPowerV ~= 0 or scrollPowerH ~= 0 then
 							obj:ScrollDelta(scrollPowerH,scrollPowerV)
 							updateSelection()
@@ -10804,8 +10804,8 @@ local function getPath(obj)
 end
 
 local function main()
-	local RunService = game:GetService("RunService")
-	local UserInputService = game:GetService("UserInputService")
+	local RunService = cloneref(game.service("RunService"))
+	local UserInputService = cloneref(game.service("UserInputService"))
 	
 	local ModelViewer = {
 		EnableInputCamera = true,
@@ -13121,7 +13121,7 @@ end
 local function main()
 	local SaveInstance = {}
 	local window, ListFrame
-	local fileName = "Place_"..game.PlaceId.."_"..game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name.."_{TIMESTAMP}"
+	local fileName = "Place_"..game.PlaceId.."_"..cloneref(game.service("MarketplaceService")):GetProductInfo(game.PlaceId).Name.."_{TIMESTAMP}"
 	local Saving = false
 	
 	local SaveInstanceArgs = {
@@ -13424,7 +13424,7 @@ if identifyexecutor then
 	local name,ver = identifyexecutor()
 	executorName = name
 	executorVersion = ver
-elseif game:GetService("RunService"):IsStudio() then
+elseif cloneref(game.service("RunService")):IsStudio() then
 	executorName = "Studio"
 	executorVersion = version()
 end
@@ -13732,7 +13732,7 @@ end
 local function main()
 	local SettingsWindow = {}
 	local window, ListFrame
-	local fileName = "Place_"..game.PlaceId.."_"..game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name.."_{TIMESTAMP}"
+	local fileName = "Place_"..game.PlaceId.."_"..cloneref(game.service(("MarketplaceService")):GetProductInfo(game.PlaceId).Name.."_{TIMESTAMP}"
 	local Saving = false
 	
 	local function AddCheckbox(title, default)
@@ -14476,7 +14476,7 @@ Main = (function()
 
 				-- Check if local copy exists with matching hashs
 				local hashfunc = (syn and syn.crypt.hash) or function() return "" end
-				local filePath = "dex/ModuleCache/"..name..".lua"
+				local filePath = "moddedex/ModuleCache/"..name..".lua"
 				local s,moduleStr = pcall(env.readfile,filePath)
 
 				if s and hashfunc(moduleStr) == hashs[name] then
@@ -14582,9 +14582,9 @@ Main = (function()
 			rawset(self,name,func)
 		end})
 
-		env.isonmobile = game:GetService("UserInputService").TouchEnabled
+		env.isonmobile = cloneref(game.service("UserInputService")).TouchEnabled
 		
-		env.loadstring = (pcall(loadstring,"local a = 1") and loadstring) or (game:GetService("RunService"):IsStudio() and script.Modules:FindFirstChild("Loadstring") and require(script.Modules:FindFirstChild("Loadstring")))
+		env.loadstring = (pcall(loadstring,"local a = 1") and loadstring) or (cloneref(game.service("RunService")):IsStudio() and script.Modules:FindFirstChild("Loadstring") and require(script.Modules:FindFirstChild("Loadstring")))
 
 		-- file
 		env.isfile = isfile
@@ -14597,7 +14597,7 @@ Main = (function()
 		env.loadfile = loadfile
 		env.saveinstance = saveinstance or (function()
 			--warn("No built-in saveinstance exists, using SynSaveInstance and wrapper...")
-			if game:GetService("RunService"):IsStudio() then return function() error("Cannot run in Roblox Studio!") end end
+			if cloneref(game.service("RunService")):IsStudio() then return function() error("Cannot run in Roblox Studio!") end end
 			local Params = {
 				RepoURL = "https://raw.githubusercontent.com/luau/SynSaveInstance/main/",
 				SSI = "saveinstance",
@@ -14787,7 +14787,7 @@ Main = (function()
 				Lib.ShowGui(msg)
 				
 				if os and os.execute then pcall(os.execute,'explorer "https://weao.xyz"') end
-				if pcall(game.GetService, game,"MessageBusService") and game:GetService("MessageBusService").Publish then pcall(game:GetService("MessageBusService").Publish, game:GetService("MessageBusService"), game:GetService("MessageBusService"):GetMessageId("Linking", "openURLRequest"), {url = 'explorer "https://weao.xyz"'}) end
+				if pcall(game.GetService, game,"MessageBusService") and cloneref(game.service("MessageBusService")).Publish then pcall(cloneref(game.service("MessageBusService")).Publish, cloneref(game.service("MessageBusService")), cloneref(game.service("MessageBusService")):GetMessageId("Linking", "openURLRequest"), {url = 'explorer "https://weao.xyz"'}) end
 			else
 				warn(msg)
 			end			
@@ -14876,7 +14876,7 @@ Main = (function()
 	--warn(Main.ExportSettings())
 
 	Main.LoadSettings = function()
-		local s, data = pcall(env.readfile or error, "DexPlusPlusSettings.json")
+		local s, data = pcall(env.readfile or error, "ModdedDexSettings.json")
 		if s and data and data ~= "" then
 			
 			local s, decoded = pcall(service.HttpService.JSONDecode, service.HttpService, data)
@@ -14931,7 +14931,7 @@ Main = (function()
 		local api,rawAPI
 		if Main.Elevated then
 			if Main.LocalDepsUpToDate() then
-				local localAPI = Lib.ReadFile("dex/rbx_api.dat")
+				local localAPI = Lib.ReadFile("moddedex/rbx_api.dat")
 				if localAPI then 
 					rawAPI = localAPI
 				else
@@ -15092,7 +15092,7 @@ Main = (function()
 		local rawXML
 		if Main.Elevated then
 			if Main.LocalDepsUpToDate() then
-				local localRMD = Lib.ReadFile("dex/rbx_rmd.dat")
+				local localRMD = Lib.ReadFile("moddedex/rbx_rmd.dat")
 				if localRMD then 
 					rawXML = localRMD
 				else
@@ -15212,7 +15212,7 @@ Main = (function()
 			{3,"Frame",{BackgroundColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),BorderSizePixel=0,ClipsDescendants=true,Name="Holder",Parent={2},Size=UDim2.new(1,0,1,0),}},
 			{4,"UIGradient",{Parent={3},Rotation=30,Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
 			{5,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=4,Name="Title",Parent={3},Position=UDim2.new(0,-190,0,15),Size=UDim2.new(0,100,0,50),Text="MDex",TextColor3=Color3.new(1,1,1),TextSize=50,TextTransparency=1,}},
-			{6,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Desc",Parent={3},Position=UDim2.new(0,-230,0,60),Size=UDim2.new(0,180,0,25),Text="Ultimate Debugging Suite",TextColor3=Color3.new(1,1,1),TextSize=18,TextTransparency=1,}},
+			{6,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Desc",Parent={3},Position=UDim2.new(0,-230,0,60),Size=UDim2.new(0,180,0,25),Text="Ultimate Undetected Debugging Suite",TextColor3=Color3.new(1,1,1),TextSize=18,TextTransparency=1,}},
 			{7,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="StatusText",Parent={3},Position=UDim2.new(0,20,0,110),Size=UDim2.new(0,180,0,25),Text="Fetching API",TextColor3=Color3.new(1,1,1),TextSize=14,TextTransparency=1,}},
 			{8,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),BorderSizePixel=0,Name="ProgressBar",Parent={3},Position=UDim2.new(0,110,0,145),Size=UDim2.new(0,0,0,4),}},
 			{9,"Frame",{BackgroundColor3=Color3.new(0.2392156869173,0.56078433990479,0.86274510622025),BorderSizePixel=0,Name="Bar",Parent={8},Size=UDim2.new(0,0,1,0),}},
@@ -15616,16 +15616,16 @@ Main = (function()
 
 		local writefile,makefolder = env.writefile,env.makefolder
 
-		makefolder("dex")
-		makefolder("dex/assets")
-		makefolder("dex/saved")
-		makefolder("dex/plugins")
-		makefolder("dex/ModuleCache")
+		makefolder("moddedex")
+		makefolder("moddedex/assets")
+		makefolder("moddedex/saved")
+		makefolder("moddedex/plugins")
+		makefolder("moddedex/ModuleCache")
 	end
 
 	Main.SaveCurrentSettings = function()
 		if writefile then
-			writefile("DexPlusPlusSettings.json", Main.ExportSettings())
+			writefile("ModdedDexSettings.json", Main.ExportSettings())
 		end
 	end
 
@@ -15634,10 +15634,10 @@ Main = (function()
 	end
 
 	Main.Init = function()
-		Main.Elevated = pcall(function() local a = game:GetService("CoreGui"):GetFullName() end)
+		Main.Elevated = pcall(function() local a = cloneref(game.service("CoreGui")):GetFullName() end)
 		
 		-- saves new settings if does not exist
-		if isfile and not isfile("DexPlusPlusSettings.json") then
+		if isfile and not isfile("ModdedDexSettings.json") then
 			Main.SaveCurrentSettings()
 		end
 		
@@ -15679,7 +15679,7 @@ Main = (function()
 		-- Fetch version if needed
 		intro.SetProgress("Fetching Roblox Version",0.3)
 		if Main.Elevated then
-			local fileVer = Lib.ReadFile("dex/deps_version.dat")
+			local fileVer = Lib.ReadFile("moddedex/deps_version.dat")
 			Main.ClientVersion = Version()
 			if fileVer then
 				Main.DepsVersionData = string.split(fileVer,"\n")
@@ -15711,9 +15711,9 @@ Main = (function()
 
 		-- Save external deps locally if needed
 		if Main.Elevated and env.writefile and not Main.LocalDepsUpToDate() then
-			env.writefile("dex/deps_version.dat",Main.ClientVersion.."\n"..Main.RobloxVersion)
-			env.writefile("dex/rbx_api.dat",Main.RawAPI)
-			env.writefile("dex/rbx_rmd.dat",Main.RawRMD)
+			env.writefile("moddedex/deps_version.dat",Main.ClientVersion.."\n"..Main.RobloxVersion)
+			env.writefile("moddedex/rbx_api.dat",Main.RawAPI)
+			env.writefile("moddedex/rbx_rmd.dat",Main.RawRMD)
 		end
 
 		-- Load other modules
@@ -15735,9 +15735,9 @@ Main = (function()
 		
 		
 		if env.readfile and listfiles then
-			if #listfiles("dex/plugins") > 0 then
+			if #listfiles("moddedex/plugins") > 0 then
 				intro.SetProgress("Loading Plugin Files",0.8)
-				for _, pluginDir in pairs(listfiles("dex/plugins")) do
+				for _, pluginDir in pairs(listfiles("moddedex/plugins")) do
 					local moduleData = Main.LoadPluginFile(pluginDir)
 					moduleData.PluginData = moduleData.PluginData or {}
 
@@ -15780,7 +15780,7 @@ Main = (function()
 		Main.AppControls = {}
 		Main.Plugins = {}
 		for _, gui in pairs(Main.GetSecureContainer():GetChildren()) do
-			if string.sub(gui.Name,1,5) == "_DPP_" then -- DPP stands for DexPlusPlus
+			if string.sub(gui.Name,1,5) == "_MDX_" then -- MDX stands for Modded DeX
 				gui:Destroy()
 			end
 		end
