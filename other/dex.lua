@@ -14584,7 +14584,7 @@ Main = (function()
 
 		env.isonmobile = cloneref(game.service("UserInputService")).TouchEnabled
 		
-		env.loadstring = (pcall(loadstring,"local a = 1") and loadstring) or (cloneref(game.service("RunService")):IsStudio() and script.Modules:FindFirstChild("Loadstring") and require(script.Modules:FindFirstChild("Loadstring")))
+		env.loadstring = (pcall(loadstring,"local a = 1") and loadstring) or (cloneref(game.service("RunService"))):IsStudio() and script.Modules:FindFirstChild("Loadstring") and require(script.Modules:FindFirstChild("Loadstring")))
 
 		-- file
 		env.isfile = isfile
