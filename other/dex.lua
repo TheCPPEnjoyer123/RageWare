@@ -29,11 +29,11 @@ if getconnections then
    local LogService = cloneref(game.service(game, "LogService"))
    local ScriptContext = cloneref(game.service(game, "ScriptContext"))
 
-   for _, connection in pairs(LogService.MessageOut) do
+   for _, connection in pairs(getconnections(LogService.MessageOut)) do
       pcall(function() connection:Disconnect() end)
    end
 
-   for _, connection in pairs(ScriptContext.Error) do
+   for _, connection in pairs(getconnections(ScriptContext.Error)) do
       pcall(function() connection:Disconnect() end)
    end
 end
